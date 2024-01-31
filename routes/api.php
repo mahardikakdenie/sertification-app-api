@@ -19,9 +19,13 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('users')->group(function () {
     Route::get('/', [UserContrller::class, 'index']);
     Route::post('/', [UserContrller::class, 'store']);
+    Route::put('/{id}', [UserContrller::class, 'update']);
+    Route::delete('/{id}', [UserContrller::class, 'deleteData']);
 });
 
 Route::prefix('schema')->group(function () {
     Route::get('/', [SchemaController::class, 'index']);
     Route::post('/', [SchemaController::class, 'store']);
+    Route::put('/{id}', [SchemaController::class, 'update']);
+    Route::delete('/{id}', [SchemaController::class, 'deleteSchema']);
 });

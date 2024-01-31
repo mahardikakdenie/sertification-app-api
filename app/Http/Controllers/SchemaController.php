@@ -42,4 +42,41 @@ class SchemaController extends Controller
             return Json::exception('Error Exception ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
         }
     }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $schema = Schema::findOrFail($id);
+
+            $schema->code = $request->input('code', $schema->code);
+            $schema->name = $request->input('name', $schema->name);
+            $schema->type = $request->input('type', $schema->type);
+            $schema->count = $request->input('count', $schema->count);
+            $schema->save();
+
+            return Json::response($schema);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return Json::exception('Error Model ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return Json::exception('Error Query ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        } catch (\ErrorException $e) {
+            return Json::exception('Error Exception ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        }
+    }
+
+    public function deleteSchema(Request $request, $id)
+    {
+        try {
+            $schema = Schema::findOrFail($id);
+            $schema->delete();
+
+            return Json::response($schema);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return Json::exception('Error Model ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return Json::exception('Error Query ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        } catch (\ErrorException $e) {
+            return Json::exception('Error Exception ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        }
+    }
 }

@@ -44,4 +44,44 @@ class UserContrller extends Controller
             return Json::exception('Error Exception ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
         }
     }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->name = $request->input('name', $user->name);
+            $user->email = $request->input('email', $user->email);
+            $user->gender = $request->input('gender;', $user->gender);
+            $user->address = $request->input('address', $user->address);
+            $user->phone_number = $request->input('phone_number', $user->phone_number);
+            $user->schema_id = $request->input('schema_id', $user->schema_id);
+            $user->save();
+
+            $user->schema;
+
+            return Json::response($user);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return Json::exception('Error Model ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return Json::exception('Error Query ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        } catch (\ErrorException $e) {
+            return Json::exception('Error Exception ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        }
+    }
+
+    public function deleteData($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+
+            return Json::response($user);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return Json::exception('Error Model ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return Json::exception('Error Query ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        } catch (\ErrorException $e) {
+            return Json::exception('Error Exception ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        }
+    }
 }
